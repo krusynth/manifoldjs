@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Test</title>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+	<script>
+WindowManager = function() {
+	this.container = {};
+	this.windows = {};
+
+	this._fullsize_style = {
+
+	};
+
+	this._styles = {
+		'fullsize' : {
+			'height': '100%',
+			'width': '100%',
+			'margin': 0,
+			'padding': 0
+		},
+		'default': {
+			'position': 'absolute',
+			'z-index': 1
+		},
+		'attach-top': {
+			'top': 0
+		},
+		'attach-bottom': {
+			'bottom': 0
+		},
+		'attach-left': {
+			'left': 0
+		},
+		'attach-right': {
+			'right': 0
+		},
+
+	}
+
+	this._
+
+	this.init = function() {
+
+
+		$('body,html').css(this._styles['fullsize']);
+
+		this.container = $('<div id="wm_container"></div>');
+		this.container.css(this._styles['fullsize']);
+		this.container.css(this._styles['default']);
+		$('body').prepend(this.container);
+	}
+
+	this.addWindow = function(name, attrs) {
+		var window = $('<section></section>');
+		window.attr('id', name);
+		window.css(this._styles['default']);
+
+		if(attrs['attach-top']) {
+			if(attrs['attach-top'] === true) {
+				window.css(this._styles['attach-top']);
+			}
+			else {
+				/* Fix me */
+				var top = this.windows[attrs['attach-top']].outerHeight(true) +
+					parseInt(this.windows[attrs['attach-top']].top());
+				window.css('top', top+'px');
+			}
+
+		}
+		if(attrs['attach-bottom']) {
+			if(attrs['attach-bottom'] === true) {
+				window.css(this._styles['attach-bottom']);
+			}
+			else {
+				/* Fix me */
+				var bottom = this.windows[attrs['attach-bottom']].outerHeight(true) +
+					parseInt(this.windows[attrs['attach-bottom']].bottom());
+				window.css('bottom', bottom+'px');
+			}
+
+		}
+		if(attrs['attach-left']) {
+			if(attrs['attach-left'] === true) {
+				window.css(this._styles['attach-left']);
+			}
+			else {
+				/* Fix me */
+				var left = this.windows[attrs['attach-left']].outerWidth(true) +
+					parseInt(this.windows[attrs['attach-left']].css('left'));
+				window.css('left', left+'px');
+			}
+		}
+		if(attrs['attach-right']) {
+			if(attrs['attach-right'] === true) {
+				window.css(this._styles['attach-right']);
+			}
+			else {
+				/* Fix me */
+				var right = this.windows[attrs['attach-right']].outerWidth(true) +
+					parseInt(this.windows[attrs['attach-right']].css('right'));
+				window.css('right', right+'px');
+			}
+		}
+
+		if(attrs['width']) {
+			window.css('width', attrs['width']);
+		}
+		if(attrs['height']) {
+			window.css('height', attrs['height']);
+		}
+
+		if(attrs['scrollbox']) {
+			window.css('overflow', 'auto');
+		}
+
+		this.windows[name] = window;
+		this.container.append(window);
+
+		return window;
+	}
+}
+
+var wm = new WindowManager();
+
+$(document).ready(function() {
+
+	wm.init();
+	wm.addWindow('red-window', {
+		'attach-top': true,
+		'attach-bottom': true,
+		'attach-right': true,
+		'width': '300px'
+	});
+	var green_window = wm.addWindow('green-window', {
+		'attach-top': true,
+		'attach-bottom': true,
+		'attach-right': 'red-window',
+		'width': '250px',
+		'scrollbox': true
+	});
+
+	green_window.append('<div id="blue-window"></div>');
+
+});
+	</script>
+<style>
+#wm_container {
+	background-color: #eee;
+}
+#red-window {
+	background-color: #f99;
+	border: 1px dashed #666;
+}
+#green-window {
+	background-color: #9f9;
+	border: 1px dashed #666;
+}
+#blue-window {
+	height: 600px;
+	width: 200px;
+}
+
+
+
+</style>
+
+</head>
+<body>
+
+</body>
+</html>
