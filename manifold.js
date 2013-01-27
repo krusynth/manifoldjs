@@ -11,8 +11,8 @@ var ManifoldWindowManager = function(args) {
 	this.ready = $.Deferred();
 	this.loading = $.Deferred();
 
-    /* The manifold stylesheet */
-    /* Override this to change the default styles - use any jquery selector */
+	/* The manifold stylesheet */
+	/* Override this to change the default styles - use any jquery selector */
 	this.stylesheet = false;
 
 	/* The styles in that stylesheet */
@@ -25,17 +25,17 @@ var ManifoldWindowManager = function(args) {
 
 	/* Initialize the manager */
 	this.init = function(args) {
-	    /* Override our defaults */
+		/* Override our defaults */
 		this.extend(args);
 
 		/* Setup our styles */
 		this.initStyles();
 
-        /* When we know the styles are loaded, then we can set defaults. */
+		/* When we know the styles are loaded, then we can set defaults. */
 		this.loading.done(function() {
 			self.setDefaults();
 
-            /* When the defaults are set, we're ready. */
+			/* When the defaults are set, we're ready. */
 			self.ready.resolve();
 		});
 	}
@@ -107,13 +107,13 @@ var ManifoldWindowManager = function(args) {
 		return classes;
 	}
 
-    /* Append a window to the manager */
+	/* Append a window to the manager */
 	this.addWindow = function(name, attrs) {
 		var mwindow = new ManifoldWindow(self, name, attrs);
 		self.windows[name] = mwindow;
 
-        /* When the manager is ready and the window is ready,
-           append the window to the manager. */
+		/* When the manager is ready and the window is ready,
+		   append the window to the manager. */
 		$.when(this.ready, mwindow.ready).done(function() {
 			self.container.append(mwindow.view);
 		});
@@ -128,23 +128,23 @@ var ManifoldWindowManager = function(args) {
 var ManifoldWindow = function(wm, name, attrs) {
 	var self = this;
 
-    /* Window Manager */
+	/* Window Manager */
 	this.wm = wm;
 	/* The jQuery object for the window */
 	this.view = {};
 
-    /* Our ready state */
+	/* Our ready state */
 	this.ready = $.Deferred();
 
-    /* Setup the base parameters */
+	/* Setup the base parameters */
 	this.init = function(name, attrs) {
 		this.view = $('<section></section>');
 
 		this.view.attr('id', name);
 
-        /* When the manager is ready, we know we have our styles */
+		/* When the manager is ready, we know we have our styles */
 		this.wm.ready.done(function() {
-		    /* Set our styles */
+			/* Set our styles */
 			self._styles = self.wm._styles;
 			self.doStyles(attrs);
 		});
@@ -152,7 +152,7 @@ var ManifoldWindow = function(wm, name, attrs) {
 		return this.view;
 	}
 
-    /* Decorate our window */
+	/* Decorate our window */
 	this.doStyles = function(attrs) {
 		this.view.css(this._styles['.default']);
 
@@ -214,17 +214,17 @@ var ManifoldWindow = function(wm, name, attrs) {
 			this.view.css('overflow', 'auto');
 		}
 
-        /* Once all the styles are done, we're ready. */
+		/* Once all the styles are done, we're ready. */
 		this.ready.resolve();
 	}
 
-    /* Append content to the window */
+	/* Append content to the window */
 	this.append = function(content) {
-	    /* We allow content to be appended even though we may not be ready */
+		/* We allow content to be appended even though we may not be ready */
 		this.view.append(content);
 	}
 
-    /* Setup */
+	/* Setup */
 	this.init(name, attrs);
 
 	return this;
