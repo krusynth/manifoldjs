@@ -99,7 +99,7 @@ var ManifoldWindowManager = function(args) {
 		var mwindow = new ManifoldWindow(self, name, attrs);
 		self.windows[name] = mwindow;
 
-		this.ready.done(function() {
+		$.when(this.ready, mwindow.ready).done(function() {
 			self.container.append(mwindow.view);
 		});
 
