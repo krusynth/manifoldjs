@@ -9,22 +9,34 @@
 $(document).ready(function() {
 
 	var wm = new ManifoldWindowManager();
-
-	wm.addWindow('red-window', {
+	var header = wm.addWindow('header', {
 		'attach-top': true,
+		'attach-left': true,
+		'attach-right': true,
+		'fixed': true,
+		'height': '150px'
+	});
+	var red_window = wm.addWindow('red-window', {
+		'attach-top': header,
 		'attach-bottom': true,
 		'attach-right': true,
 		'width': '300px'
 	});
 	var green_window = wm.addWindow('green-window', {
-		'attach-top': true,
+		'attach-top': header,
 		'attach-bottom': true,
-		'attach-right': 'red-window',
+		'attach-right': red_window,
 		'width': '250px',
 		'scrollbox': true
 	});
-
-	green_window.append('<div id="blue-window"></div>');
+	green_window.append('<div id="fill-window"></div>');
+	var blue_window = wm.addWindow('blue-window', {
+		'attach-top': header,
+		'attach-left': true,
+		'width': '250px',
+		'height': '1600px',
+		'scrollbox': true
+	});
 
 });
 	</script>
@@ -32,6 +44,10 @@ $(document).ready(function() {
 #wm_container {
 	background-color: #eee;
 }
+#header {
+	background-color: #ff0;
+}
+
 #red-window {
 	background-color: #f99;
 	border: 1px dashed #666;
@@ -41,6 +57,11 @@ $(document).ready(function() {
 	border: 1px dashed #666;
 }
 #blue-window {
+	background-color: #99f;
+	border: 1px dashed #666;
+}
+
+#fill-window {
 	height: 600px;
 	width: 200px;
 }

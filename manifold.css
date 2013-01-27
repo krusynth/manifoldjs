@@ -23,3 +23,7 @@
 .manifold-scrollbox {
 	overflow: auto;
 }
+.manifold-fixed {
+	position: fixed;
+	z-index: 1000;
+}
