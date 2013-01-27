@@ -1,0 +1,22 @@
+.fullsize{
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+.default{
+	position: absolute;
+	z-index: 1;
+}
+.attach-top{
+	top: 0;
+}
+.attach-bottom{
+	bottom: 0;
+}
+.attach-left{
+	left: 0;
+}
+.attach-right{
+	right: 0;
+}
