@@ -1,22 +1,25 @@
-.fullsize{
+.manifold-default{
+	position: absolute;
+	z-index: 1;
+}
+.manifold-fullsize{
 	height: 100%;
 	width: 100%;
 	margin: 0;
 	padding: 0;
 }
-.default{
-	position: absolute;
-	z-index: 1;
-}
-.attach-top{
+.manifold-attach-top{
 	top: 0;
 }
-.attach-bottom{
+.manifold-attach-bottom{
 	bottom: 0;
 }
-.attach-left{
+.manifold-attach-left{
 	left: 0;
 }
-.attach-right{
+.manifold-attach-right{
 	right: 0;
+}
+.manifold-scrollbox {
+	overflow: auto;
 }

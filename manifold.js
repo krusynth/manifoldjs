@@ -41,11 +41,11 @@ var ManifoldWindowManager = function(args) {
 	}
 
 	this.setDefaults = function() {
-		$('body,html').css(this._styles['.fullsize']);
+		$('body,html').css(this._styles['.manifold-fullsize']);
 
 		self.container = $('<div id="wm_container"></div>');
-		self.container.css(self._styles['.fullsize']);
-		self.container.css(self._styles['.default']);
+		self.container.css(self._styles['.manifold-fullsize']);
+		self.container.css(self._styles['.manifold-default']);
 		$('body').prepend(self.container);
 	}
 
@@ -154,53 +154,35 @@ var ManifoldWindow = function(wm, name, attrs) {
 
 	/* Decorate our window */
 	this.doStyles = function(attrs) {
-		this.view.css(this._styles['.default']);
+		this.view.css(this._styles['.manifold-default']);
 
-		if(attrs['attach-top']) {
-			if(attrs['attach-top'] === true) {
-				this.view.css(this._styles['.attach-top']);
-			}
-			else {
-				/* Fix me */
-				var top = this.wm.windows[attrs['attach-top']].window.outerHeight(true) +
-					parseInt(this.wm.windows[attrs['attach-top']].window.top());
-				this.view.css('top', top+'px');
-			}
-
-		}
-		if(attrs['attach-bottom']) {
-			if(attrs['attach-bottom'] === true) {
-				this.view.css(this._styles['.attach-bottom']);
-			}
-			else {
-				/* Fix me */
-				var bottom = this.wm.windows[attrs['attach-bottom']].window.outerHeight(true) +
-					parseInt(this.wm.windows[attrs['attach-bottom']].window.bottom());
-				this.view.css('bottom', bottom+'px');
-			}
-
-		}
-		if(attrs['attach-left']) {
-			if(attrs['attach-left'] === true) {
-				this.view.css(this._styles['.attach-left']);
-			}
-			else {
-				/* Fix me */
-				var left = this.wm.windows[attrs['attach-left']].window.outerWidth(true) +
-					parseInt(this.wm.windows[attrs['attach-left']].window.css('left'));
-				this.view.css('left', left+'px');
+		for(key in attrs) {
+			if(attrs[key] === true && this._styles['.manifold-'+key]) {
+				this.view.css(this._styles['.manifold-'+key]);
 			}
 		}
-		if(attrs['attach-right']) {
-			if(attrs['attach-right'] === true) {
-				this.view.css(this._styles['.attach-right']);
-			}
-			else {
-				/* Fix me */
-				var right = this.wm.windows[attrs['attach-right']].window.outerWidth(true) +
-					parseInt(this.wm.windows[attrs['attach-right']].window.css('right'));
-				this.view.css('right', right+'px');
-			}
+
+		if(attrs['attach-top'] && attrs['attach-top'] !== true) {
+			/* Fix me */
+			var top = this._get_window(attrs['attach-top']).outerHeight(true) +
+				parseInt(this._get_window(attrs['attach-top']).css('top'));
+			this.view.css('top', top+'px');
+		}
+		if(attrs['attach-bottom'] && attrs['attach-bottom'] !== true) {
+			/* Fix me */
+			var bottom = this._get_window(attrs['attach-bottom']).outerHeight(true) +
+				parseInt(this._get_window(attrs['attach-bottom']).css('bottom'));
+			this.view.css('bottom', bottom+'px');
+		}
+		if(attrs['attach-left'] && attrs['attach-left'] !== true) {				/* Fix me */
+			var left = this._get_window(attrs['attach-left']).outerWidth(true) +
+				parseInt(this._get_window(attrs['attach-left']).css('left'));
+			this.view.css('left', left+'px');
+		}
+		if(attrs['attach-right'] && attrs['attach-right'] !== true) {				/* Fix me */
+			var right = this._get_window(attrs['attach-right']).outerWidth(true) +
+				parseInt(this._get_window(attrs['attach-right']).css('right'));
+			this.view.css('right', right+'px');
 		}
 
 		if(attrs['width']) {
@@ -208,10 +190,6 @@ var ManifoldWindow = function(wm, name, attrs) {
 		}
 		if(attrs['height']) {
 			this.view.css('height', attrs['height']);
-		}
-
-		if(attrs['scrollbox']) {
-			this.view.css('overflow', 'auto');
 		}
 
 		/* Once all the styles are done, we're ready. */
@@ -222,6 +200,10 @@ var ManifoldWindow = function(wm, name, attrs) {
 	this.append = function(content) {
 		/* We allow content to be appended even though we may not be ready */
 		this.view.append(content);
+	}
+
+	this._get_window = function(name) {
+		return this.wm.windows[name].view;
 	}
 
 	/* Setup */
