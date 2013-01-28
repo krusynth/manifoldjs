@@ -46,7 +46,14 @@ $(document).ready(function() {
 		'height': '1200px',
 		'scrollbox': true
 	});
-	blue_window.append('This pane will always be 1200px big.');
+	blue_window.append('This pane will always be 1200px tall.   ');
+
+	var remove_button = $('<a href="#">Remove Pane</a>');
+	remove_button.click(function(e) {
+		e.preventDefault();
+		$('#blue-window').remove();
+	});
+	blue_window.append(remove_button);
 
 });
 	</script>
