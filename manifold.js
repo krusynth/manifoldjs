@@ -18,6 +18,9 @@ var ManifoldWindowManager = function(args) {
 	/* The styles in that stylesheet */
 	this._styles = {};
 
+	/* How often to refresh the styles in ms */
+	this.refresh_delay = 300;
+
 	/* Do we really need to re-implement extend? */
 	this.extend = function(args) {
 		$.extend(this, args);
@@ -38,12 +41,17 @@ var ManifoldWindowManager = function(args) {
 			/* When the defaults are set, we're ready. */
 			self.ready.resolve();
 		});
+
+		this.ready.done(function() {
+			self.watch();
+		});
 	}
 
 	this.setDefaults = function() {
 		$('body,html').css(this._styles['.manifold-fullsize']);
 
 		self.container = $('<div id="wm_container"></div>');
+		self.container.addClass('manifold-fullsize manifold-default');
 		self.container.css(self._styles['.manifold-fullsize']);
 		self.container.css(self._styles['.manifold-default']);
 		$('body').prepend(self.container);
@@ -121,6 +129,16 @@ var ManifoldWindowManager = function(args) {
 		return mwindow;
 	}
 
+	this.watch = function() {
+		// Make sure that anything that's top and bottom bound sticks to the
+		// actual body size.  We bind the container to the document size.
+		// We don't want the height of the container to influence the
+		// calculation of the document height, so we set it to zero first.
+		self.container.height( 0 ).height( $(document).height() );
+
+		setTimeout(self.watch, self.refresh_delay);
+	}
+
 	/* Setup */
 	this.init(args);
 }
@@ -159,9 +177,12 @@ var ManifoldWindow = function(wm, name, attrs) {
 		this.view.css(this._styles['.manifold-default']);
 
 		for(key in attrs) {
-			if(attrs[key] === true && this._styles['.manifold-'+key]) {
-				console.log(self.name, self.view.css('top'));
-				this.view.css(this._styles['.manifold-'+key]);;
+			if(this._styles['.manifold-'+key]) {
+				this.view.addClass('manifold-'+key);
+				if(attrs[key] === true) {
+					console.log(self.name, self.view.css('top'));
+					this.view.css(this._styles['.manifold-'+key]);;
+				}
 			}
 		}
 
