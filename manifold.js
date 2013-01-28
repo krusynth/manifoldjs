@@ -123,7 +123,9 @@ var ManifoldWindowManager = function(args) {
 		/* When the manager is ready and the window is ready,
 		   append the window to the manager. */
 		$.when(this.ready, mwindow.ready).done(function() {
-			self.container.append(mwindow.view);
+			if(mwindow.view.parent().length == 0) {
+				self.container.append(mwindow.view);
+			}
 		});
 
 		return mwindow;
@@ -135,6 +137,10 @@ var ManifoldWindowManager = function(args) {
 		// We don't want the height of the container to influence the
 		// calculation of the document height, so we set it to zero first.
 		self.container.height( 0 ).height( $(document).height() );
+
+		for(name in self.windows) {
+			self.windows[name].update();
+		}
 
 		setTimeout(self.watch, self.refresh_delay);
 	}
@@ -232,7 +238,6 @@ var ManifoldWindow = function(wm, name, attrs) {
 
 		/* Once all the styles are done, we're ready. */
 		this.ready.resolve();
-				console.log(self.name, self.view.css('top'));
 	}
 
 	/* Append content to the window */
@@ -243,6 +248,10 @@ var ManifoldWindow = function(wm, name, attrs) {
 
 	this._get_window = function(name) {
 		return this.wm.windows[name];
+	}
+
+	this.update = function() {
+		// Put your updates here.
 	}
 
 	/* Setup */

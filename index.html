@@ -48,6 +48,16 @@ $(document).ready(function() {
 	});
 	blue_window.append('This pane will always be 1200px tall.   ');
 
+	var bottom_nav = wm.addWindow('bottom-nav', {
+		'attach-bottom': true,
+		'attach-left': true,
+		'attach-right': true,
+		'height': '20px'
+	});
+	bottom_nav.append('Footer menu');
+
+	blue_window.append(bottom_nav.view);
+
 	var remove_button = $('<a href="#">Remove Pane</a>');
 	remove_button.click(function(e) {
 		e.preventDefault();
@@ -81,6 +91,11 @@ $(document).ready(function() {
 #fill-window {
 	height: 600px;
 	width: 200px;
+}
+
+#bottom-nav {
+	padding: 6px 10px;
+	background-color: rgba(255,255,255, 0.5);
 }
 	</style>
 
