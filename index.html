@@ -16,12 +16,18 @@ $(document).ready(function() {
 		'fixed': true,
 		'height': '150px'
 	});
+	header.append('This header will remain fixed at the top.');
+
 	var red_window = wm.addWindow('red-window', {
 		'attach-top': header,
 		'attach-bottom': true,
 		'attach-right': true,
-		'width': '300px'
+		'width': '300px',
+		'fixed': true
 	});
+	red_window.append('This pane will fill the screen regardless of height.\
+		It will remain fixed to the right.');
+
 	var green_window = wm.addWindow('green-window', {
 		'attach-top': header,
 		'attach-bottom': true,
@@ -29,14 +35,18 @@ $(document).ready(function() {
 		'width': '250px',
 		'scrollbox': true
 	});
-	green_window.append('<div id="fill-window"></div>');
+	green_window.append('<div id="fill-window">\
+		This pane will have scrollbars at less than 600px tall.\
+		</div>');
+
 	var blue_window = wm.addWindow('blue-window', {
 		'attach-top': header,
 		'attach-left': true,
 		'width': '250px',
-		'height': '1600px',
+		'height': '1200px',
 		'scrollbox': true
 	});
+	blue_window.append('This pane will always be 1200px big.');
 
 });
 	</script>
